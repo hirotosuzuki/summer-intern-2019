@@ -42,6 +42,12 @@ class FacilityController @javax.inject.Inject()(
       Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))
     }
   }
+  /**
+    * 個々の施設ページ
+    */
+  def show(id: String) = Action {
+    Ok(id)
+  }
 
   /**
    * 施設検索
