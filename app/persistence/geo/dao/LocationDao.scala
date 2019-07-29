@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 import scala.concurrent.Future
 
 import slick.jdbc.JdbcProfile
+// slick: RDBへのコネクターっぽいもの
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
 
