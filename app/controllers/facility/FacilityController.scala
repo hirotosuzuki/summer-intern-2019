@@ -18,6 +18,7 @@ import persistence.geo.dao.LocationDAO
 // model
 import model.site.facility.SiteViewValueFacilityList
 import model.site.facility.SiteViewValueFacilityShow
+import model.site.facility.SiteViewValueFacilityEdit
 import model.component.util.ViewValuePageLayout
 
 
@@ -74,6 +75,44 @@ class FacilityController @javax.inject.Inject()(
       )
       Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
     }
+  }
+
+  /**
+    * 個々の施設の編集ページ
+    */
+  def edit(id: String) = Action.async { implicit request =>
+    for {      
+      facility <- facilityDao.get(id.toLong)    
+    } yield {
+      val vv = SiteViewValueFacilityEdit(
+        layout = ViewValuePageLayout(id = request.uri),
+        facility = facility
+      )
+      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
+    }
+  }
+
+  /**
+    * 個々の施設の編集ページ
+    */
+  def update(id: String) = Action.async { implicit request =>
+    for {      
+      facility <- facilityDao.get(id.toLong)    
+    } yield {
+      val vv = SiteViewValueFacilityShow(
+        layout = ViewValuePageLayout(id = request.uri),
+        facility = facility
+      )
+      Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
+    }
+  }
+
+  def create(id: String) = Action {
+    Ok(id)
+  }
+
+  def delete(id: String) = Action {
+    Ok(id)
   }
 
   /**

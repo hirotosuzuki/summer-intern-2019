@@ -12,9 +12,10 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 GET     /facility/list                    controllers.facility.FacilityController.list
 GET     /facility/list/:id                controllers.facility.FacilityController.show(id)
 GET     /facility/search                  controllers.facility.FacilityController.search
-# PUT     /facility/:facility_id            controllers.facility.FacilityController.edit
-# DELETE  /facility/:facility_id            controllers.facility.FacilityController.delete
-# POST    /facility/                        controllers.facility.FacilityController
+GET     /facility/edit/:id                controllers.facility.FacilityController.edit(id)
+PUT    /facility/list/:id                 controllers.facility.FacilityController.update(id)
+POST     /facility/list/:id               controllers.facility.FacilityController.create(id)
+DELETE  /facility/list/:id                controllers.facility.FacilityController.delete(id)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view
@@ -22,4 +23,4 @@ GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21
 # --[ その他 ]------------------------------------------------------------------
 GET  /assets/*file  controllers.Assets.versioned(path = "/public", file)
 GET  /              controllers.ApplicationController.redirect(to = "/recruit/intership-for-summer-21", from = "")
-GET  /*path         controllers.ApplicationController.redirect(to = "/recruit/intership-for-summer-21", path: String)
+# GET  /*path         controllers.ApplicationController.redirect(to = "/recruit/intership-for-summer-21", path: String)
