@@ -31,12 +31,20 @@ class FacilityDAO @javax.inject.Inject()(
    * 施設を取得
    */
   // https://www.scala-lang.org/api/2.12.4/scala/Some.html
-  def get(id: Facility.Id): Future[Facility] =
+  def get(id: Facility.Id): Future[Option[Facility]] =
     db.run {
       slick
         .filter(_.id === id)
-        .result.head
+        .result.headOption
     }
+  def update(id: Long, name: String, address: String, description: String):  Unit  = 
+    db.run {
+      slick
+        .filter(_.id === id)
+        .map(p => (p.name, p.address, p.description))
+        .update((name, address, description))
+    }
+
 
   /**
    * 施設を全件取得する

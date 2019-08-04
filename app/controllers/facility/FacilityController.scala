@@ -13,6 +13,7 @@ import play.api.mvc.{AbstractController, MessagesControllerComponents}
 import persistence.facility.model.Facility
 import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
+import persistence.facility.model.Facility.formForFacilityEdit
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
 // model
@@ -62,58 +63,6 @@ class FacilityController @javax.inject.Inject()(
     }
     // for { A } yield { B }: AしてからBする
   }
-  /**
-    * 個々の施設ページ
-    */
-  def show(id: String) = Action.async { implicit request =>
-    for {      
-      facility <- facilityDao.get(id.toLong)    
-    } yield {
-      val vv = SiteViewValueFacilityShow(
-        layout = ViewValuePageLayout(id = request.uri),
-        facility = facility
-      )
-      Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
-    }
-  }
-
-  /**
-    * 個々の施設の編集ページ
-    */
-  def edit(id: String) = Action.async { implicit request =>
-    for {      
-      facility <- facilityDao.get(id.toLong)    
-    } yield {
-      val vv = SiteViewValueFacilityEdit(
-        layout = ViewValuePageLayout(id = request.uri),
-        facility = facility
-      )
-      Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
-    }
-  }
-
-  /**
-    * 個々の施設の編集ページ
-    */
-  def update(id: String) = Action.async { implicit request =>
-    for {      
-      facility <- facilityDao.get(id.toLong)    
-    } yield {
-      val vv = SiteViewValueFacilityShow(
-        layout = ViewValuePageLayout(id = request.uri),
-        facility = facility
-      )
-      Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
-    }
-  }
-
-  def create(id: String) = Action {
-    Ok(id)
-  }
-
-  def delete(id: String) = Action {
-    Ok(id)
-  }
 
   /**
    * 施設検索
@@ -154,5 +103,94 @@ class FacilityController @javax.inject.Inject()(
         }
       }
     )
+  }
+
+  def create(id: Long) = Action {
+    Ok("create")
+  }
+
+  // def new = Action {
+  //   Ok("new")
+  // }
+
+  /**
+    * 個々の施設の編集ページ
+    */
+  def edit(id: Long) = Action.async { implicit request =>
+    formForFacilityEdit.bindFromRequest.fold(
+      errors => {
+        // list関数と同じ
+        for {
+          locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+          facilitySeq <- facilityDao.findAll
+        } yield {
+          val vv = SiteViewValueFacilityList(
+            layout     = ViewValuePageLayout(id = request.uri),
+            location   = locSeq,
+            facilities = facilitySeq
+          )
+          Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))          
+        }
+      },
+      form => {
+        facilityDao.update(id, form.name, form.address, form.description)
+        for {
+          facility <- facilityDao.get(id)
+        } yield {
+          val vv = SiteViewValueFacilityEdit(
+            layout = ViewValuePageLayout(id = request.uri),
+            facility = facility
+          )
+          Ok(views.html.site.facility.edit.Main(vv, formForFacilityEdit))
+        }
+      }
+    )
+
+
+
+    // for {      
+    //   facility <- facilityDao.get(id.toLong)    
+    // } yield {
+    //   val vv = SiteViewValueFacilityEdit(
+    //     layout = ViewValuePageLayout(id = request.uri),
+    //     facility = facility
+    //   )
+    //   Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
+    // }
+  }
+
+  /**
+    * 個々の施設ページ
+    */
+  def show(id: Long) = Action.async { implicit request =>
+    for {
+        facility <- facilityDao.get(id)
+      } yield {
+        val header = SiteViewValueFacilityEdit(
+          layout = ViewValuePageLayout(id = request.uri),
+          facility = facility
+        )
+      Ok(views.html.site.facility.edit.Main(header, formForFacilityEdit))
+    }
+  }  
+
+  /**
+    * 個々の施設の編集
+    */
+  def update(id: Long) = Action.async { implicit request =>
+    for {      
+      facility <- facilityDao.get(id.toLong)    
+    } yield {
+      // val vv = SiteViewValueFacilityShow(
+      //   layout = ViewValuePageLayout(id = request.uri),
+      //   facility = facility
+      // )
+      // Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
+      Ok("update")
+    }
+  }  
+
+  def delete(id: Long) = Action {
+    Ok("delete")
   }
 }

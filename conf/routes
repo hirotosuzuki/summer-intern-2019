@@ -9,13 +9,30 @@ POST  /app/new-user                     controllers.app.NewUserCommitController.
 
 
 # --[ 施設ページ ]----------------------------------------------------------------
-GET     /facility/list                    controllers.facility.FacilityController.list
-GET     /facility/list/:id                controllers.facility.FacilityController.show(id)
+# facilityの一覧を取得
+GET     /facility                   controllers.facility.FacilityController.list
+
+# facilityを検索するためのformを取得
 GET     /facility/search                  controllers.facility.FacilityController.search
-GET     /facility/edit/:id                controllers.facility.FacilityController.edit(id)
-PUT    /facility/list/:id                 controllers.facility.FacilityController.update(id)
-POST     /facility/list/:id               controllers.facility.FacilityController.create(id)
-DELETE  /facility/list/:id                controllers.facility.FacilityController.delete(id)
+
+# facilityを作成
+POST    /facility                         controllers.facility.FacilityController.create(id: Long)
+
+# facilityを作成するためのformを取得
+# GET     /facility/new                     controllers.facility.FacilityController.new
+
+# 既存のfacilityを編集するためのformを取得
+GET     /facility/:id/edit                controllers.facility.FacilityController.edit(id: Long)
+
+# 既存のfacilityを取得
+GET     /facility/:id                     controllers.facility.FacilityController.show(id: Long)
+
+# 既存のfacilityを更新
+PUT     /facility/:id                     controllers.facility.FacilityController.update(id: Long)
+
+# 既存のfacilityを削除
+DELETE  /facility/:id                     controllers.facility.FacilityController.delete(id: Long)
+
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

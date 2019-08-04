@@ -7,5 +7,5 @@ import persistence.facility.model.Facility
 //~~~~~~~~~~~~~~~~~~~~~
 case class SiteViewValueFacilityEdit(
   layout:   ViewValuePageLayout,
-  facility: Facility
+  facility: Option[Facility]
 )

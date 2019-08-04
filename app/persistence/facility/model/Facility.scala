@@ -29,6 +29,12 @@ case class FacilitySearch(
   locationIdOpt: Option[Location.Id]
 )
 
+case class FacilityEdit(
+  name: String,
+  address: String,
+  description: String,
+)
+
 // コンパニオンオブジェクト
 //~~~~~~~~~~~~~~~~~~~~~~~~~~
 object Facility {
@@ -37,10 +43,18 @@ object Facility {
   type Id = Long
 
   // --[ フォーム定義 ]---------------------------------------------------------
+  // https://www.playframework.com/documentation/ja/2.4.x/ScalaForms
   val formForFacilitySearch = Form(
     mapping(
       "locationId" -> optional(text),
     )(FacilitySearch.apply)(FacilitySearch.unapply)
+  )
+  val formForFacilityEdit = Form(
+    mapping(
+      "name"        -> text,
+      "address"     -> text,
+      "description" -> text,
+    )(FacilityEdit.apply)(FacilityEdit.unapply)
   )
 }
 

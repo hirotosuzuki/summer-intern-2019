@@ -3,9 +3,10 @@
 
 @** 施設一覧/検索 *@
 @import persistence.facility.model.FacilitySearch
+@import persistence.facility.model.FacilityEdit
 
 @** template内で利用する変数定義 *@
-@(vv: SiteViewValueFacilityEdit, form: Form[FacilitySearch])(implicit messages: play.api.i18n.Messages)
+@(vv: SiteViewValueFacilityEdit, form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
 
 @views.html.common.layout.Default(vv.layout) {
   @views.html.common.layout.ContentLayout(
@@ -16,5 +17,5 @@
 
 @** テンプレート: コンテンツ *@
 @tplContent = {
-  @views.html.site.facility.edit._Form(vv, form)
+  @views.html.site.facility.edit._Form(vv.facility, form)
 }

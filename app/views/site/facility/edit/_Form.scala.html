@@ -2,42 +2,22 @@
 @import model.site.facility.SiteViewValueFacilityEdit
 @import play.api.data.Form
 
+@import persistence.facility.model.Facility
 @import persistence.facility.model.FacilitySearch
-@(vv: SiteViewValueFacilityEdit, form: Form[FacilitySearch])(implicit messages: play.api.i18n.Messages)
+@import persistence.facility.model.FacilityEdit
 
-@** 施設検索一覧 *@
-@views.html.common.layout.InnerContent("site-app-new-user-form", "content") {
-  @** --[ 見出し ]---------------------------------------------------------- *@
-  <h3 class="content__section header">
-    <span class="header__title">施設詳細</span>
-  </h3>  
-
-  @** --[ 詳細 ]-------------------------------------------------------- *@
-  <div class="content__section content">        
-    <div class="item-panel__wrapper">
-      <header class="facility-item__header">
-        <div class="name">
-          @vv.facility.name
-        </div>
-      </header>
-      <section class="facility-item__content">
+@(facility: Option[Facility], form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
+@if(facility.isEmpty == false) {
+    @helper.form( action = controllers.facility.routes.FacilityController.edit(facility.get.id.get)) {
         <div>
-          <div class="item-panel__content">
-            <div class="address">
-              <label class="inline">住所:</label>
-              <p class="inline">
-                @vv.facility.address
-              </p>
-            </div>
-            <div class="description">
-              <label class="inline">備考:</label>
-              <p class="inline">
-                @vv.facility.description
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div> 
+            @helper.inputText(form("name"), 'placeholder -> facility.get.name)
+            @helper.inputText(form("address"), 'placeholder -> facility.get.address)
+            @helper.inputText(form("description"), 'placeholder -> facility.get.description)
+            <button class="button">編集</button>
+            <button class="button"><a href="/facility">戻る</a></button>
+            <button class="button"><a href="/facility/@facility.get.id.get ">削除</a></button>
+        <div>
+    }
+} else {
+    <div>存在しないidです</div>
 }
