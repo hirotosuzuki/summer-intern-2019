@@ -39,6 +39,13 @@ class LocationDAO @javax.inject.Inject()(
         .result.headOption
     }
 
+  def getCities(): Future[Seq[Location]] = 
+    db.run {
+      slick
+        .filter(_.nameCity.nonEmpty)
+        .result
+    }
+
   /**
    * 地域情報の複数取得
    * 検索業件: ロケーションID (全国地方公共団体コード)

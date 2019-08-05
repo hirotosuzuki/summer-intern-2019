@@ -44,6 +44,12 @@ class FacilityDAO @javax.inject.Inject()(
         .map(p => (p.name, p.address, p.description))
         .update((name, address, description))
     }
+  
+  def create(locationId: Location.Id ,name: String, address: String, description: String): Unit = 
+    db.run {
+      slick
+        .map(p => (p.locationId, p.name, p.address, p.description)) += ((locationId, name, address, description))
+    }
 
 
   /**

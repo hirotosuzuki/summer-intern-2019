@@ -14,12 +14,15 @@ import persistence.facility.model.Facility
 import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
 import persistence.facility.model.Facility.formForFacilityEdit
+import persistence.facility.model.Facility.formForFacilityAdd
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
 // model
 import model.site.facility.SiteViewValueFacilityList
 import model.site.facility.SiteViewValueFacilityShow
 import model.site.facility.SiteViewValueFacilityEdit
+import model.site.facility.SiteViewValueFacilityAdd
+
 import model.component.util.ViewValuePageLayout
 
 
@@ -105,13 +108,49 @@ class FacilityController @javax.inject.Inject()(
     )
   }
 
-  def create(id: Long) = Action {
-    Ok("create")
+  def create = Action.async { implicit request =>
+    formForFacilityAdd.bindFromRequest.fold(
+      errors => {
+        for {
+          locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+          facilitySeq <- facilityDao.findAll
+        } yield {
+          val vv = SiteViewValueFacilityList(
+            layout     = ViewValuePageLayout(id = request.uri),
+            location   = locSeq,
+            facilities = facilitySeq
+          )
+          BadRequest(views.html.site.facility.list.Main(vv, formForFacilitySearch))
+        }
+      },
+      form => {
+        facilityDao.create(form.locationId, form.name, form.address, form.description)
+        for {
+          locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+          facilitySeq <- facilityDao.findAll
+        } yield {
+          val vv = SiteViewValueFacilityList(
+            layout     = ViewValuePageLayout(id = request.uri),
+            location   = locSeq,
+            facilities = facilitySeq
+          )
+          Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))
+        }
+      }
+    )
   }
 
-  // def new = Action {
-  //   Ok("new")
-  // }
+  def add = Action.async { implicit request => 
+    for {
+      locSeq <- daoLocation.getCities()
+    } yield {
+      val vv = SiteViewValueFacilityAdd(
+        layout = ViewValuePageLayout(id = request.uri),
+        location = locSeq
+      )
+      Ok(views.html.site.facility.add.Main(vv, formForFacilityAdd))
+    }
+  }
 
   /**
     * 個々の施設の編集ページ

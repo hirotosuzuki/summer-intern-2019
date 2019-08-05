@@ -35,6 +35,13 @@ case class FacilityEdit(
   description: String,
 )
 
+case class FacilityAdd(
+  locationId: Location.Id,
+  name: String,
+  address: String,
+  description: String,
+)
+
 // コンパニオンオブジェクト
 //~~~~~~~~~~~~~~~~~~~~~~~~~~
 object Facility {
@@ -55,6 +62,14 @@ object Facility {
       "address"     -> text,
       "description" -> text,
     )(FacilityEdit.apply)(FacilityEdit.unapply)
+  )
+  val formForFacilityAdd = Form(
+    mapping(
+      "locationId" -> text,
+      "name" -> text,
+      "address" -> text,
+      "description" -> text
+    )(FacilityAdd.apply)(FacilityAdd.unapply)
   )
 }
 
