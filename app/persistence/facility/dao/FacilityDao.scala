@@ -15,6 +15,7 @@ import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
 import persistence.facility.model.Facility
 import persistence.geo.model.Location
+import persistence.organization.model.Organization
 
 // DAO: 施設情報
 //~~~~~~~~~~~~~~~~~~
@@ -86,14 +87,15 @@ class FacilityDAO @javax.inject.Inject()(
     /* @2 */ def locationId    = column[Location.Id]    ("location_id")
     /* @3 */ def name          = column[String]         ("name")
     /* @4 */ def address       = column[String]         ("address")
-    /* @5 */ def description   = column[String]         ("description")
+    /* @5 */ def description   = column[String]         ("description")             
     /* @6 */ def updatedAt     = column[LocalDateTime]  ("updated_at")
     /* @7 */ def createdAt     = column[LocalDateTime]  ("created_at")
+             def organizationId= column[Option[Organization.Id]]("organization_id")
 
     // The * projection of the table
     def * = (
       id.?, locationId, name, address, description,
-      updatedAt, createdAt
+      updatedAt, createdAt, organizationId
     ) <> (
       /** The bidirectional mappings : Tuple(table) => Model */
       (Facility.apply _).tupled,

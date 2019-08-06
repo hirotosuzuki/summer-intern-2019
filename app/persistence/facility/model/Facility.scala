@@ -11,6 +11,7 @@ import play.api.data._
 import play.api.data.Forms._
 import java.time.LocalDateTime
 import persistence.geo.model.Location
+import persistence.organization.model.Organization
 
 // 施設情報 (sample)
 //~~~~~~~~~~~~~
@@ -19,9 +20,10 @@ case class Facility(
   locationId:  Location.Id,                        // 地域ID
   name:        String,                             // 施設名
   address:     String,                             // 住所(詳細)
-  description: String,                             // 施設説明
+  description: String,                             // 施設説明  
   updatedAt:   LocalDateTime = LocalDateTime.now,  // データ更新日
-  createdAt:   LocalDateTime = LocalDateTime.now   // データ作成日
+  createdAt:   LocalDateTime = LocalDateTime.now,  // データ作成日
+  organizationId: Option[Organization.Id],         // 組織ID
 )
 
 // 施設検索
