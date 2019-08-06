@@ -16,6 +16,11 @@
   @** --[ 見出し ]---------------------------------------------------------- *@
   <h3 class="content__section header">
     <span class="header__title">施設一覧</span>
+    <button class="button">
+      <a href="facility/add">
+        <span class="submit__text">新規作成</span>
+      </a>
+    </button>  
   </h3>
 
   @** --[ 検索フォーム ]---------------------------------------------------------- *@
@@ -43,7 +48,7 @@
   </div>
 
   @** --[ 一覧 ]-------------------------------------------------------- *@
-  <div class="content__section content">    
+  <div class="content__section content"> 
     @for(facility <- vv.facilities) {
       <article class="facility-list-item">
         <a href="facility/@facility.id">

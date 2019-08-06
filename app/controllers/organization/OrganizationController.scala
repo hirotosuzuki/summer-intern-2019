@@ -44,7 +44,33 @@ class OrganizationController @javax.inject.Inject()(
         }
     }
 
-    def create = TODO
+    def create = Action.async { implicit request =>
+        formForOrganizationAdd.bindFromRequest.fold(
+            errors => {
+                for {
+                    organizationSeq <- organizationDao.findAll
+                } yield {
+                    val vv = SiteViewValueOrganizationList(
+                        layout        = ViewValuePageLayout(id = request.uri),
+                        organizations = organizationSeq
+                    )
+                    BadRequest(views.html.site.organization.list.Main(vv))
+                }
+            },
+            form => {
+                organizationDao.create(form.locationId, form.name, form.address)
+                for {
+                    organizationSeq <- organizationDao.findAll
+                } yield {
+                    val vv = SiteViewValueOrganizationList(
+                        layout        = ViewValuePageLayout(id = request.uri),
+                        organizations = organizationSeq
+                    )
+                    Ok(views.html.site.organization.list.Main(vv))
+                }
+            }
+        )
+    }
 
     def add = Action.async { implicit request =>
         for {
