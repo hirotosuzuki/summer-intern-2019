@@ -32,7 +32,8 @@ GET     /facility/:id                     controllers.facility.FacilityControlle
 PUT     /facility/:id                     controllers.facility.FacilityController.update(id: Long)
 
 # 既存のfacilityを削除
-DELETE  /facility/:id                     controllers.facility.FacilityController.delete(id: Long)
+# <form>タグではDELETEやPUTを送れない
+GET     /facility/delete/:id              controllers.facility.FacilityController.delete(id: Long)
 
 
 # --[ 特集ページ ]--------------------------------------------------------------

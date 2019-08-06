@@ -229,7 +229,23 @@ class FacilityController @javax.inject.Inject()(
     }
   }  
 
+  // def delete(id: Long) = Action.async { implicit request =>
+  //   facilityDao.delete(id)    
+    // for {
+    //   locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
+    //   facilitySeq <- facilityDao.findAll
+    // } yield {
+    //   val vv = SiteViewValueFacilityList(
+    //     layout     = ViewValuePageLayout(id = request.uri),
+    //     location   = locSeq,
+    //     facilities = facilitySeq
+    //   )
+    //   Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))      
+    // }
+  // }
+
   def delete(id: Long) = Action {
-    Ok("delete")
+    facilityDao.delete(id)
+    Redirect(routes.FacilityController.list)
   }
 }
