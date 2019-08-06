@@ -1,4 +1,4 @@
-package model.site.facility
+package model.site.organization
 
 import model.component.util.ViewValuePageLayout
 import persistence.organization.model.Organization

@@ -28,16 +28,17 @@ GET     /facility/:id/edit                controllers.facility.FacilityControlle
 # 既存のfacilityを取得
 GET     /facility/:id                     controllers.facility.FacilityController.show(id: Long)
 
-# 既存のfacilityを更新
-PUT     /facility/:id                     controllers.facility.FacilityController.update(id: Long)
-
 # 既存のfacilityを削除
 # <form>タグではDELETEやPUTを送れない
 GET     /facility/delete/:id              controllers.facility.FacilityController.delete(id: Long)
 
 
 # --[組織ページ]---------------------------------------------------------------
-GET     /organization           controllers.organization.OrganizationController.list
+GET     /organization               controllers.organization.OrganizationController.list
+POST    /organization               controllers.organization.OrganizationController.create
+GET     /organization/add           controllers.organization.OrganizationController.add
+GET     /organization/:id/edit      controllers.organization.OrganizationController.edit(id: Long)
+GET     /organization/delete/:id    controllers.organization.OrganizationController.delete(id: Long)
 
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view

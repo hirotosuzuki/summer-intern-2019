@@ -184,18 +184,6 @@ class FacilityController @javax.inject.Inject()(
         }
       }
     )
-
-
-
-    // for {      
-    //   facility <- facilityDao.get(id.toLong)    
-    // } yield {
-    //   val vv = SiteViewValueFacilityEdit(
-    //     layout = ViewValuePageLayout(id = request.uri),
-    //     facility = facility
-    //   )
-    //   Ok(views.html.site.facility.edit.Main(vv, formForFacilitySearch))
-    // }
   }
 
   /**
@@ -213,36 +201,6 @@ class FacilityController @javax.inject.Inject()(
     }
   }  
 
-  /**
-    * 個々の施設の編集
-    */
-  def update(id: Long) = Action.async { implicit request =>
-    for {      
-      facility <- facilityDao.get(id.toLong)    
-    } yield {
-      // val vv = SiteViewValueFacilityShow(
-      //   layout = ViewValuePageLayout(id = request.uri),
-      //   facility = facility
-      // )
-      // Ok(views.html.site.facility.show.Main(vv, formForFacilitySearch))
-      Ok("update")
-    }
-  }  
-
-  // def delete(id: Long) = Action.async { implicit request =>
-  //   facilityDao.delete(id)    
-    // for {
-    //   locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
-    //   facilitySeq <- facilityDao.findAll
-    // } yield {
-    //   val vv = SiteViewValueFacilityList(
-    //     layout     = ViewValuePageLayout(id = request.uri),
-    //     location   = locSeq,
-    //     facilities = facilitySeq
-    //   )
-    //   Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))      
-    // }
-  // }
 
   def delete(id: Long) = Action {
     facilityDao.delete(id)

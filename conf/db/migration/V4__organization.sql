@@ -6,3 +6,5 @@ CREATE TABLE "organization" (
   "updated_at"  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   "created_at"  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
+
+INSERT INTO "organization" ("location_id", "name", "address") VALUES ('22100', 'ロケット団',  '静岡県静岡市葵区追手町1-1');
