@@ -36,6 +36,9 @@ PUT     /facility/:id                     controllers.facility.FacilityControlle
 GET     /facility/delete/:id              controllers.facility.FacilityController.delete(id: Long)
 
 
+# --[組織ページ]---------------------------------------------------------------
+GET     /organization           controllers.organization.OrganizationController.list
+
 # --[ 特集ページ ]--------------------------------------------------------------
 GET  /recruit/intership-for-summer-21  controllers.recruit.InternshipForSummer21Controller.view
 
