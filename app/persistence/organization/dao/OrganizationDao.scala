@@ -18,6 +18,39 @@ class OrganizationDAO @javax.inject.Inject()(
 
     lazy val slick = TableQuery[OrganizationTable]
 
+    def findAll: Future[Seq[Organization]] =
+        db.run {
+          slick.result
+        }
+
+    def get(id: Organization.Id): Future[Option[Organization]] = 
+        db.run {
+            slick
+                .filter(_.id === id)
+                .result.headOption
+        }
+
+    def update(id: Long, locationId: Location.Id, name: String, address: String): Unit = 
+        db.run {
+            slick
+                .filter(_.id === id)
+                .map(p => (p.locationId, p.name, p.address))
+                .update((locationId, name, address))
+        }
+    
+    def create(locationId: Location.Id, name:String, address:String): Unit = 
+        db.run {
+            slick
+                .map(p => (p.locationId, p.name, p.address)) += ((locationId, name, address))
+        }
+    
+    def delete(id: Long): Unit = 
+        db.run {
+            slick
+                .filter(_.id === id)
+                .delete
+        }
+
     class OrganizationTable(tag: Tag) extends Table[Organization](tag, "organization") {
         def id = column[Organization.Id] ("id", O.PrimaryKey, O.AutoInc)
         def locationId    = column[Location.Id] ("location_id")
