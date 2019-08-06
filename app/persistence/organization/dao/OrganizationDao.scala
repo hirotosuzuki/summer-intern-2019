@@ -52,7 +52,7 @@ class OrganizationDAO @javax.inject.Inject()(
         }
 
     class OrganizationTable(tag: Tag) extends Table[Organization](tag, "organization") {
-        def id = column[Organization.Id] ("id", O.PrimaryKey, O.AutoInc)
+        def id            = column[Organization.Id] ("id", O.PrimaryKey, O.AutoInc)
         def locationId    = column[Location.Id] ("location_id")
         def name          = column[String] ("name")
         def address       = column[String] ("address")
