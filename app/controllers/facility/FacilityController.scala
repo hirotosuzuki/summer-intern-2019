@@ -15,6 +15,8 @@ import persistence.facility.dao.FacilityDAO
 import persistence.facility.model.Facility.formForFacilitySearch
 import persistence.facility.model.Facility.formForFacilityEdit
 import persistence.facility.model.Facility.formForFacilityAdd
+import persistence.facility.model.FacilityEdit
+
 import persistence.geo.model.Location
 import persistence.geo.dao.LocationDAO
 // model
@@ -180,7 +182,12 @@ class FacilityController @javax.inject.Inject()(
           layout = ViewValuePageLayout(id = request.uri),
           facility = facility
         )
-      Ok(views.html.site.facility.edit.Main(header, formForFacilityEdit))
+        val filledformForFacilityEdit = formForFacilityEdit.fill(FacilityEdit(
+          facility.get.name,
+          facility.get.address,
+          facility.get.description
+        ))
+        Ok(views.html.site.facility.edit.Main(header, filledformForFacilityEdit))
     }
   }  
 
