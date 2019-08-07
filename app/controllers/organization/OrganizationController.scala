@@ -19,6 +19,7 @@ import persistence.geo.dao.LocationDAO
 
 import persistence.organization.dao.OrganizationDAO
 import persistence.organization.model.Organization.formForOrganizationEdit
+import persistence.organization.model.OrganizationEdit
 import persistence.organization.model.Organization.formForOrganizationAdd
 
 import model.component.util.ViewValuePageLayout
@@ -106,7 +107,12 @@ class OrganizationController @javax.inject.Inject()(
                 organization = organization,
                 location = locSeq
             )
-        Ok(views.html.site.organization.edit.Main(header, formForOrganizationEdit))
+            val filledformForOrganizationEdit = formForOrganizationEdit.fill(OrganizationEdit(
+                organization.get.locationId,
+                organization.get.name,
+                organization.get.address
+            ))
+            Ok(views.html.site.organization.edit.Main(header, filledformForOrganizationEdit))
         }
     }
 
