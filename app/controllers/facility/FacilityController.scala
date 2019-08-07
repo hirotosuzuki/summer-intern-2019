@@ -155,33 +155,16 @@ class FacilityController @javax.inject.Inject()(
   /**
     * 個々の施設の編集ページ
     */
-  def edit(id: Long) = Action.async { implicit request =>
+  def edit(id: Long) = Action { implicit request =>
     formForFacilityEdit.bindFromRequest.fold(
       errors => {
-        // list関数と同じ
-        for {
-          locSeq      <- daoLocation.filterByIds(Location.Region.IS_PREF_ALL)
-          facilitySeq <- facilityDao.findAll
-        } yield {
-          val vv = SiteViewValueFacilityList(
-            layout     = ViewValuePageLayout(id = request.uri),
-            location   = locSeq,
-            facilities = facilitySeq
-          )
-          Ok(views.html.site.facility.list.Main(vv, formForFacilitySearch))          
-        }
+        // list関数と同じ        
+        Redirect(routes.FacilityController.show(id))          
+        
       },
       form => {
-        facilityDao.update(id, form.name, form.address, form.description)
-        for {
-          facility <- facilityDao.get(id)
-        } yield {
-          val vv = SiteViewValueFacilityEdit(
-            layout = ViewValuePageLayout(id = request.uri),
-            facility = facility
-          )
-          Ok(views.html.site.facility.edit.Main(vv, formForFacilityEdit))
-        }
+        facilityDao.update(id, form.name, form.address, form.description)  
+        Redirect(routes.FacilityController.list)      
       }
     )
   }

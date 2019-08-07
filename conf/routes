@@ -37,6 +37,7 @@ GET     /facility/delete/:id              controllers.facility.FacilityControlle
 GET     /organization               controllers.organization.OrganizationController.list
 POST    /organization               controllers.organization.OrganizationController.create
 GET     /organization/add           controllers.organization.OrganizationController.add
+GET     /organization/:id           controllers.organization.OrganizationController.show(id: Long)
 GET     /organization/:id/edit      controllers.organization.OrganizationController.edit(id: Long)
 GET     /organization/delete/:id    controllers.organization.OrganizationController.delete(id: Long)
 

@@ -15,6 +15,7 @@ case class Organization(
 )
 
 case class OrganizationEdit(
+    locationId: Location.Id,
     name: String,
     address: String,    
 )
@@ -30,8 +31,9 @@ object Organization {
 
     val formForOrganizationEdit = Form(
         mapping(
-            "name"        -> text,
-            "address"     -> text,
+            "locationId"  -> text,
+            "name"        -> nonEmptyText,
+            "address"     -> nonEmptyText,
         )(OrganizationEdit.apply)(OrganizationEdit.unapply)
     )
     val formForOrganizationAdd = Form(

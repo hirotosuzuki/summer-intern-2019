@@ -32,7 +32,7 @@ class OrganizationController @javax.inject.Inject()(
 ) extends AbstractController(cc) with I18nSupport {
     implicit lazy val executionContext = defaultExecutionContext
 
-    def list() = Action.async { implicit request =>
+    def list = Action.async { implicit request =>
         for {
             organizationSeq <- organizationDao.findAll
         } yield {
@@ -84,7 +84,31 @@ class OrganizationController @javax.inject.Inject()(
         }
     }
 
-    def edit(id: Long) = TODO
+    def edit(id: Long) = Action { implicit request =>
+        formForOrganizationEdit.bindFromRequest.fold(
+            errors => {
+                Redirect(routes.OrganizationController.show(id))
+            },
+            form => {
+                organizationDao.update(id, form.locationId, form.name, form.address)                
+                Redirect(routes.OrganizationController.list)
+            }
+        )
+    }
+
+    def show(id: Long) = Action.async { implicit request =>
+        for {
+            organization <- organizationDao.get(id)
+            locSeq <- daoLocation.getCities()
+        } yield {
+            val header = SiteViewValueOrganizationEdit(
+                layout = ViewValuePageLayout(id = request.uri),
+                organization = organization,
+                location = locSeq
+            )
+        Ok(views.html.site.organization.edit.Main(header, formForOrganizationEdit))
+        }
+    }
 
     def delete(id: Long) = Action {
         organizationDao.delete(id)

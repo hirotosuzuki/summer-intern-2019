@@ -60,8 +60,8 @@ object Facility {
   )
   val formForFacilityEdit = Form(
     mapping(
-      "name"        -> text,
-      "address"     -> text,
+      "name"        -> nonEmptyText,
+      "address"     -> nonEmptyText,
       "description" -> text,
     )(FacilityEdit.apply)(FacilityEdit.unapply)
   )

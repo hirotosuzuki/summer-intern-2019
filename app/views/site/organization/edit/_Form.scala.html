@@ -1,21 +1,28 @@
 @import views.html.helper
-@import model.site.facility.SiteViewValueFacilityEdit
+@import model.site.organization.SiteViewValueOrganizationEdit
 @import play.api.data.Form
 
-@import persistence.facility.model.Facility
-@import persistence.facility.model.FacilitySearch
-@import persistence.facility.model.FacilityEdit
+@import persistence.organization.model.Organization
+@import persistence.organization.model.OrganizationEdit
+@import persistence.geo.model.Location
 
-@(facility: Option[Facility], form: Form[FacilityEdit])(implicit messages: play.api.i18n.Messages)
-@if(facility.isEmpty == false) {
-    @helper.form( action = controllers.facility.routes.FacilityController.edit(facility.get.id.get)) {
+
+@(location: Seq[Location], organization: Option[Organization], form: Form[OrganizationEdit])(implicit messages: play.api.i18n.Messages)
+@if(organization.isEmpty == false) {
+    @helper.form( action = controllers.organization.routes.OrganizationController.edit(organization.get.id.get)) {
         <div>
-            @helper.inputText(form("name"), 'placeholder -> facility.get.name)
-            @helper.inputText(form("address"), 'placeholder -> facility.get.address)
-            @helper.inputText(form("description"), 'placeholder -> facility.get.description)
+            @helper.select(
+                field   = form("locationId"),
+                options = location.map(v => (v.id, v.nameCity.get)),
+                '_label           -> "市",
+                '_default         -> "未選択",
+                '_showConstraints -> false
+            )
+            @helper.inputText(form("name"), 'placeholder -> organization.get.name)
+            @helper.inputText(form("address"), 'placeholder -> organization.get.address)            
             <button class="button">編集</button>
-            <button class="button"><a href="/facility">戻る</a></button>
-            <button class="button"><a href="/facility/delete/@facility.get.id.get ">削除</a></button>
+            <button class="button"><a href="/organization">戻る</a></button>
+            <button class="button"><a href="/organization/delete/@organization.get.id.get ">削除</a></button>
         <div>
     }
 } else {
